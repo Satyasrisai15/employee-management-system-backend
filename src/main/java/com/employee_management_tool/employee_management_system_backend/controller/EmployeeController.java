@@ -20,7 +20,7 @@ import com.employee_management_tool.employee_management_system_backend.service.E
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/employees")
+@RequestMapping("/employees")
 public class EmployeeController {
 
     @Autowired

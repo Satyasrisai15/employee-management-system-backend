@@ -2,6 +2,7 @@ package com.employee_management_tool.employee_management_system_backend.controll
 
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +15,7 @@ import com.employee_management_tool.employee_management_system_backend.repositor
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthController {
     
     private final UserRepository userRepository;
@@ -26,7 +27,7 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@RequestBody User request) {
         if (userRepository.existsByUsername(request.getUsername())) {
-            return ResponseEntity.badRequest().body("Username already exists");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already exists");
         }
         
         User user = new User();
@@ -46,7 +47,7 @@ public class AuthController {
                 .orElseThrow(() -> new RuntimeException("User not found"));
         
         if (!user.getPassword().equals(request.getPassword())) {
-            return ResponseEntity.badRequest().body("Invalid credentials");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
         
         String token = "Bearer " + UUID.randomUUID().toString();

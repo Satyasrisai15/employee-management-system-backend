@@ -20,7 +20,7 @@ public class User {
     private String username;
     
     @Column(nullable = false)
-    private String password;
+    private String password = "password";
 
     @Column(nullable = true)
     private String token;
